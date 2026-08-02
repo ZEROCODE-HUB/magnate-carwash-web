@@ -1,0 +1,16 @@
+export const T = {
+  bg: "#F6F4EE",
+  surface: "#FFFFFF",
+  surfaceDim: "#EFEBE1",
+  ink: "#16221F",
+  inkSoft: "#5B6864",
+  primary: "#0E4B43",
+  primaryDark: "#0A332D",
+  primarySoft: "#DCEAE6",
+  accent: "#E8A93B",
+  accentDark: "#B8801F",
+  accentSoft: "#FBEBCB",
+  coral: "#E1573F",
+  coralSoft: "#FBE1DB",
+  line: "#E2DED2",
+};
