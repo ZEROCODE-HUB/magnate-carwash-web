@@ -1226,8 +1226,8 @@ h1, h2, h3, h4, p { margin: 0; }
 
 /* Board compacto en pantallas chicas: columnas apiladas */
 @media (max-width: 1023px) {
-  .ops-board { flex-direction: column; overflow-x: hidden; }
-  .ops-col { min-width: 0; max-width: none; max-height: none; }
+  .ops-board { display: block; overflow-x: hidden; }
+  .ops-col { min-width: 0; max-width: none; max-height: none; flex: none; overflow: visible; }
 }
 
 /* ---------- Toolbar del tablero ---------- */
