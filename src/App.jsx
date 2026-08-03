@@ -11,6 +11,7 @@ import TableSkeleton from "./components/ui/TableSkeleton.jsx";
 import ToastStack from "./components/ui/Toast.jsx";
 import Button from "./components/ui/Button.jsx";
 import OperationsBoard from "./components/ui/OperationsBoard.jsx";
+import BottomNav from "./components/ui/BottomNav.jsx";
 import { fetchReservations, advanceReservation, subscribeToReservations } from "./api/reservations.js";
 import { DEMO_RESERVATIONS } from "./data.js";
 
@@ -336,7 +337,13 @@ export default function App() {
           <footer style={{ textAlign: "center", fontSize: 11.5, color: "var(--ink-4)", padding: "4px 0 10px" }}>
             Magnate · Panel de operaciones — actualización en tiempo real vía servidor local
           </footer>
-          <div className="debug-bar">Órdenes: {reservations.length} · {connected ? "EN VIVO" : "CONECTANDO"} · {apiHost}</div>
+        <BottomNav
+          counts={counts}
+          total={total}
+          filterStatus={filterStatus}
+          onFilter={setFilterStatus}
+          onView={setView}
+        />
         </main>
       </div>
 

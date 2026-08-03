@@ -23,7 +23,7 @@ export default function Sidebar({ counts, total, filterStatus, onFilter, view, o
           <button
             type="button"
             className={`sidebar-item ${view === "operaciones" ? "active" : ""}`}
-            onClick={() => { onView("operaciones"); onClose(); }}
+            onClick={() => { onFilter("all"); onView("operaciones"); onClose(); }}
             aria-pressed={view === "operaciones"}
           >
             <LayoutGrid size={15} strokeWidth={2.1} />
@@ -40,42 +40,10 @@ export default function Sidebar({ counts, total, filterStatus, onFilter, view, o
             Métricas
           </button>
 
-          <div className="sidebar-section-label">Filtrar por estado</div>
-          <button
-            type="button"
-            className={`sidebar-item ${filterStatus === "all" ? "active" : ""}`}
-            onClick={() => {
-              onFilter("all");
-              onView("operaciones");
-              onClose();
-            }}
-            aria-pressed={filterStatus === "all"}
-          >
-            <span className="live-dot on" style={{ boxShadow: "none" }} />
-            Todas las reservas
-            <span className="sidebar-item-count">{total}</span>
-          </button>
-          {STATUS_FLOW.map((s) => {
-            const meta = STATUS_META[s];
-            const Icon = meta.icon;
-            return (
-              <button
-                key={s}
-                type="button"
-                className={`sidebar-item ${filterStatus === s ? "active" : ""}`}
-                onClick={() => {
-                  onFilter(s);
-                  onView("operaciones");
-                  onClose();
-                }}
-                aria-pressed={filterStatus === s}
-              >
-                <Icon size={15} strokeWidth={2.1} style={{ color: meta.color }} />
-                {s}
-                <span className="sidebar-item-count">{counts[s] || 0}</span>
-              </button>
-            );
-          })}
+          <div className="sidebar-section-label">Tip</div>
+          <p className="sidebar-tip">
+            Usá la barra inferior para filtrar el tablero por estado (Reservado, Lavando, Listo…).
+          </p>
         </nav>
 
         <div className="sidebar-footer">
