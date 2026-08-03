@@ -57,11 +57,11 @@ export default function App() {
   useEffect(() => {
     load();
     const unsubscribe = subscribeToReservations((data) => {
-      liveHasData.current = true;
+      if (data.length > 0) liveHasData.current = true;
       setReservations(data);
       setConnected(true);
       setError(null);
-      setDemoMode(false);
+      setDemoMode((prev) => (data.length === 0 ? prev : false));
       setLastSync(new Date().toLocaleTimeString("es-AR"));
     });
     return unsubscribe;
