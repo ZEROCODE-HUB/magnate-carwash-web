@@ -56,9 +56,9 @@ export const TIER_META = {
 
 // Íconos de presentación por servicio (visual grande en la tarjeta).
 export const SERVICE_META = {
-  "basico": { name: "Lavado Básico", icon: Droplets, tint: "#1D6FB8", tintBg: "#E1EEFB" },
-  "premium": { name: "Lavado Premium", icon: Sparkles, tint: "#0E7C86", tintBg: "#DCF0F1" },
-  "encerado": { name: "Encerado", icon: Crown, tint: "#B45309", tintBg: "#FBEECF" },
+  "basico": { name: "Lavado Básico", icon: Droplets, tint: "#1D6FB8", tintBg: "#E1EEFB", image: "https://picsum.photos/seed/magnate-basico/800/500" },
+  "premium": { name: "Lavado Premium", icon: Sparkles, tint: "#0E7C86", tintBg: "#DCF0F1", image: "https://picsum.photos/seed/magnate-premium/800/500" },
+  "encerado": { name: "Encerado", icon: Crown, tint: "#B45309", tintBg: "#FBEECF", image: "https://picsum.photos/seed/magnate-encerado/800/500" },
 };
 
 export const PAYMENT_META = {

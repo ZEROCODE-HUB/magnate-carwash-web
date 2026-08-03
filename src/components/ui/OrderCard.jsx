@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ArrowRight, CheckCircle2, Eye, Clock, AlertTriangle, Camera, PackagePlus, Wallet, StickyNote } from "lucide-react";
 import { ACTION_LABEL, URGENT_AFTER, SERVICE_META, TIER_META, PAYMENT_META, STATUS_META } from "../../data.js";
 
@@ -53,6 +53,9 @@ export default function OrderCard({ r, now, onAdvance, onOpen, busy }) {
   const waited = now - (r.createdAt || now);
   const urgent = !isDone && waited > (URGENT_AFTER[r.status] || 9999) * 60000;
   const justArrived = !isDone && waited < 1000 * 60 * 1.5;
+  const [imgOk, setImgOk] = useState(true);
+  const img = r.image || svc.image;
+  const showImg = img && imgOk;
 
   return (
     <article
@@ -60,10 +63,17 @@ export default function OrderCard({ r, now, onAdvance, onOpen, busy }) {
       style={{ "--tint": meta.color, "--tint-bg": meta.bg }}
       onClick={() => onOpen(r)}
     >
-      <div className="oc-media" style={{ background: svc.tintBg }}>
-        <div className="oc-media-icon" style={{ color: svc.tint }}>
-          <SvcIcon size={34} strokeWidth={1.9} />
-        </div>
+      <div className="oc-media" style={{ background: showImg ? "transparent" : svc.tintBg }}>
+        {showImg ? (
+          <>
+            <img className="oc-photo" src={img} alt="" loading="lazy" onError={() => setImgOk(false)} />
+            <div className="oc-media-shade" />
+          </>
+        ) : (
+          <div className="oc-media-icon" style={{ color: svc.tint }}>
+            <SvcIcon size={34} strokeWidth={1.9} />
+          </div>
+        )}
         <span className="oc-status-rail" title={r.status}>
           <span className="oc-status-dot" />
           {r.status}
