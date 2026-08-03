@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Search, X, LayoutGrid, RefreshCw, Inbox, AlertTriangle, Sparkles } from "lucide-react";
 import { STATUS_FLOW, STATUS_META, SERVICES } from "./data.js";
 import { T } from "./theme.js";
@@ -31,14 +31,20 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [view, setView] = useState("operaciones");
   const [toasts, setToasts] = useState([]);
+  const liveHasData = useRef(false);
 
   const load = useCallback(() => {
     setLoading(true);
     fetchReservations()
       .then((data) => {
-        setReservations(data);
         setError(null);
-        setDemoMode(false);
+        if (data.length === 0 && !liveHasData.current) {
+          setReservations(DEMO_RESERVATIONS);
+          setDemoMode(true);
+        } else {
+          setReservations(data);
+          setDemoMode(false);
+        }
       })
       .catch(() => {
         setReservations(DEMO_RESERVATIONS);
@@ -51,6 +57,7 @@ export default function App() {
   useEffect(() => {
     load();
     const unsubscribe = subscribeToReservations((data) => {
+      liveHasData.current = true;
       setReservations(data);
       setConnected(true);
       setError(null);
