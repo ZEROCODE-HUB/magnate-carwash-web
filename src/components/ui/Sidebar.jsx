@@ -1,9 +1,9 @@
 import React from "react";
-import { CalendarClock, LayoutGrid } from "lucide-react";
+import { CalendarClock, LayoutGrid, BarChart3 } from "lucide-react";
 import EagleMark from "../shared/EagleMark.jsx";
 import { STATUS_FLOW, STATUS_META } from "../../data.js";
 
-export default function Sidebar({ counts, total, filterStatus, onFilter, connected, lastSync, open, onClose }) {
+export default function Sidebar({ counts, total, filterStatus, onFilter, view, onView, connected, lastSync, open, onClose }) {
   return (
     <>
       {open && <div className="backdrop show" onClick={onClose} aria-hidden="true" />}
@@ -20,18 +20,33 @@ export default function Sidebar({ counts, total, filterStatus, onFilter, connect
 
         <nav className="sidebar-nav">
           <div className="sidebar-section-label">Menú</div>
-          <button type="button" className="sidebar-item active">
+          <button
+            type="button"
+            className={`sidebar-item ${view === "operaciones" ? "active" : ""}`}
+            onClick={() => { onView("operaciones"); onClose(); }}
+            aria-pressed={view === "operaciones"}
+          >
             <LayoutGrid size={15} strokeWidth={2.1} />
-            Reservas
+            Operaciones
             <span className="sidebar-item-count">{total}</span>
           </button>
+          <button
+            type="button"
+            className={`sidebar-item ${view === "metricas" ? "active" : ""}`}
+            onClick={() => { onView("metricas"); onClose(); }}
+            aria-pressed={view === "metricas"}
+          >
+            <BarChart3 size={15} strokeWidth={2.1} />
+            Métricas
+          </button>
 
-          <div className="sidebar-section-label">Flujo en vivo</div>
+          <div className="sidebar-section-label">Filtrar por estado</div>
           <button
             type="button"
             className={`sidebar-item ${filterStatus === "all" ? "active" : ""}`}
             onClick={() => {
               onFilter("all");
+              onView("operaciones");
               onClose();
             }}
             aria-pressed={filterStatus === "all"}
@@ -50,6 +65,7 @@ export default function Sidebar({ counts, total, filterStatus, onFilter, connect
                 className={`sidebar-item ${filterStatus === s ? "active" : ""}`}
                 onClick={() => {
                   onFilter(s);
+                  onView("operaciones");
                   onClose();
                 }}
                 aria-pressed={filterStatus === s}

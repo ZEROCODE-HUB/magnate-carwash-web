@@ -757,7 +757,7 @@ h1, h2, h3, h4, p { margin: 0; }
   inset: 0;
   background: rgba(9, 26, 23, 0.5);
   backdrop-filter: blur(2px);
-  z-index: 45;
+  z-index: 35;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--t) var(--ease);

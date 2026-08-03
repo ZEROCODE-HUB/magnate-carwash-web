@@ -29,6 +29,7 @@ export default function App() {
   const [busyId, setBusyId] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [view, setView] = useState("operaciones");
   const [toasts, setToasts] = useState([]);
 
   const load = useCallback(() => {
@@ -137,6 +138,8 @@ export default function App() {
         total={total}
         filterStatus={filterStatus}
         onFilter={setFilterStatus}
+        view={view}
+        onView={setView}
         connected={connected}
         lastSync={lastSync}
         open={sidebarOpen}
@@ -172,9 +175,11 @@ export default function App() {
 
           <header className="page-header fade-up">
             <div>
-              <h1 className="page-title">Centro de operaciones</h1>
+              <h1 className="page-title">{view === "operaciones" ? "Centro de operaciones" : "Métricas"}</h1>
               <p className="page-subtitle">
-                Tablero en vivo de lavado. Cada tarjeta es una orden activa: lo que acaba de llegar, lo que está en proceso y lo que falta entregar.
+                {view === "operaciones"
+                  ? "Tablero en vivo de lavado. Cada tarjeta es una orden activa: lo que acaba de llegar, lo que está en proceso y lo que falta entregar."
+                  : "Indicadores del día. El trabajo en vivo vive en la pestaña Operaciones."}
               </p>
             </div>
             <div className="page-actions">
@@ -187,36 +192,39 @@ export default function App() {
             </div>
           </header>
 
-          <section aria-label="Resumen del flujo">
-            <div className="kpi-grid">
-              <KpiCard
-                label="Total reservas"
-                value={total}
-                icon={LayoutGrid}
-                total
-                live={connected}
-                active={filterStatus === "all"}
-                onClick={() => setFilterStatus("all")}
-              />
-              {STATUS_FLOW.map((s) => {
-                const meta = STATUS_META[s];
-                const Icon = meta.icon;
-                return (
-                  <KpiCard
-                    key={s}
-                    label={s}
-                    value={counts[s] || 0}
-                    color={meta.color}
-                    bg={meta.bg}
-                    icon={Icon}
-                    active={filterStatus === s}
-                    onClick={() => toggleStatusFilter(s)}
-                  />
-                );
-              })}
-            </div>
-          </section>
+          {view === "metricas" && (
+            <section aria-label="Resumen del flujo">
+              <div className="kpi-grid">
+                <KpiCard
+                  label="Total reservas"
+                  value={total}
+                  icon={LayoutGrid}
+                  total
+                  live={connected}
+                  active={filterStatus === "all"}
+                  onClick={() => { setFilterStatus("all"); setView("operaciones"); }}
+                />
+                {STATUS_FLOW.map((s) => {
+                  const meta = STATUS_META[s];
+                  const Icon = meta.icon;
+                  return (
+                    <KpiCard
+                      key={s}
+                      label={s}
+                      value={counts[s] || 0}
+                      color={meta.color}
+                      bg={meta.bg}
+                      icon={Icon}
+                      active={filterStatus === s}
+                      onClick={() => { toggleStatusFilter(s); setView("operaciones"); }}
+                    />
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
+          {view === "operaciones" && (
           <section aria-label="Tablero de operaciones en vivo">
             <div className="board-toolbar fade-up">
               <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
@@ -300,6 +308,7 @@ export default function App() {
               />
             )}
           </section>
+          )}
 
           <footer style={{ textAlign: "center", fontSize: 11.5, color: "var(--ink-4)", padding: "4px 0 10px" }}>
             Magnate · Panel de operaciones — actualización en tiempo real vía servidor local
