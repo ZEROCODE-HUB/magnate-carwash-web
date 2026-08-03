@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Search, X, LayoutGrid, RefreshCw, Inbox, AlertTriangle } from "lucide-react";
+import { Search, X, LayoutGrid, RefreshCw, Inbox, AlertTriangle, Sparkles } from "lucide-react";
 import { STATUS_FLOW, STATUS_META, SERVICES } from "./data.js";
 import { T } from "./theme.js";
 import Sidebar from "./components/ui/Sidebar.jsx";
 import Topbar from "./components/ui/Topbar.jsx";
 import KpiCard from "./components/ui/KpiCard.jsx";
-import ReservationsTable from "./components/ui/ReservationsTable.jsx";
 import DetailsPanel from "./components/ui/DetailsPanel.jsx";
 import EmptyState from "./components/ui/EmptyState.jsx";
 import TableSkeleton from "./components/ui/TableSkeleton.jsx";
 import ToastStack from "./components/ui/Toast.jsx";
 import Button from "./components/ui/Button.jsx";
+import OperationsBoard from "./components/ui/OperationsBoard.jsx";
 import { fetchReservations, advanceReservation, subscribeToReservations } from "./api/reservations.js";
+import { DEMO_RESERVATIONS } from "./data.js";
 
 export default function App() {
   const [reservations, setReservations] = useState([]);
@@ -19,6 +20,8 @@ export default function App() {
   const [lastSync, setLastSync] = useState("--:--:--");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [now, setNow] = useState(Date.now());
+  const [demoMode, setDemoMode] = useState(false);
 
   const [query, setQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -34,8 +37,13 @@ export default function App() {
       .then((data) => {
         setReservations(data);
         setError(null);
+        setDemoMode(false);
       })
-      .catch(() => setError("No se pudo conectar con el servidor. ¿Está corriendo `npm run dev` en /server?"))
+      .catch(() => {
+        setReservations(DEMO_RESERVATIONS);
+        setDemoMode(true);
+        setError(null);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -45,10 +53,16 @@ export default function App() {
       setReservations(data);
       setConnected(true);
       setError(null);
+      setDemoMode(false);
       setLastSync(new Date().toLocaleTimeString("es-AR"));
     });
     return unsubscribe;
   }, [load]);
+
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 30000);
+    return () => clearInterval(t);
+  }, []);
 
   useEffect(() => {
     function onKey(e) {
@@ -158,9 +172,9 @@ export default function App() {
 
           <header className="page-header fade-up">
             <div>
-              <h1 className="page-title">Reservas</h1>
+              <h1 className="page-title">Centro de operaciones</h1>
               <p className="page-subtitle">
-                Seguimiento del flujo de lavado en tiempo real. Hacé clic sobre una reserva para ver su detalle completo.
+                Tablero en vivo de lavado. Cada tarjeta es una orden activa: lo que acaba de llegar, lo que está en proceso y lo que falta entregar.
               </p>
             </div>
             <div className="page-actions">
@@ -203,14 +217,14 @@ export default function App() {
             </div>
           </section>
 
-          <section className="card panel fade-up" aria-label="Listado de reservas">
-            <div className="panel-head">
-              <div style={{ minWidth: 0 }}>
-                <div className="panel-head-title">Cola de trabajo</div>
-                <div className="panel-head-sub">
-                  {filtered.length} de {total} reservas
-                  {filterStatus !== "all" ? ` · estado "${filterStatus}"` : ""}
-                </div>
+          <section aria-label="Tablero de operaciones en vivo">
+            <div className="board-toolbar fade-up">
+              <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                <div className="panel-head-title">Tablero en vivo</div>
+                <span className="board-toolbar-sub">
+                  {filtered.length} orden{filtered.length === 1 ? "" : "es"} activas
+                  {filterStatus !== "all" ? ` · ${filterStatus}` : ""}
+                </span>
               </div>
               <div className="panel-head-spacer" />
               <div className="field search-w">
@@ -222,7 +236,7 @@ export default function App() {
                   placeholder="Buscar cliente, vehículo…"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  aria-label="Buscar reservas"
+                  aria-label="Buscar órdenes"
                 />
                 {query && (
                   <button type="button" className="input-clear" onClick={() => setQuery("")} aria-label="Limpiar búsqueda">
@@ -235,7 +249,7 @@ export default function App() {
                   className="input"
                   value={sortDir}
                   onChange={(e) => setSortDir(e.target.value)}
-                  aria-label="Ordenar reservas"
+                  aria-label="Ordenar órdenes"
                   style={{ paddingRight: 30 }}
                 >
                   <option value="asc">Más antiguas primero</option>
@@ -244,58 +258,31 @@ export default function App() {
               </div>
             </div>
 
-            {hasFilters && filtered.length > 0 && (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "8px 18px",
-                  borderBottom: "1px solid var(--line)",
-                  background: "var(--brand-softer)",
-                  fontSize: 12.5,
-                  color: "var(--brand-strong)",
-                }}
-              >
-                <span style={{ fontWeight: 600 }}>
-                  {filtered.length} resultado{filtered.length === 1 ? "" : "s"}
+            {demoMode && (
+              <div className="board-demo-hint fade-up">
+                <Sparkles size={15} strokeWidth={2.2} />
+                <span>
+                  Mostrando <strong>datos de demostración</strong>. Conectá el servidor para ver las órdenes en vivo.
                 </span>
-                <span style={{ opacity: 0.7 }}>para la búsqueda actual</span>
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="btn btn-ghost btn-sm"
-                  style={{ marginLeft: "auto", color: "var(--brand-strong)" }}
-                >
-                  <X size={13} /> Limpiar filtros
+                <button type="button" className="btn btn-ghost btn-sm" onClick={load} style={{ marginLeft: "auto" }}>
+                  <RefreshCw size={13} /> Reintentar
                 </button>
               </div>
             )}
 
             {loading && reservations.length === 0 ? (
               <TableSkeleton rows={5} />
-            ) : error && reservations.length === 0 ? (
-              <EmptyState
-                icon={AlertTriangle}
-                title="Sin conexión con el servidor"
-                text="No se pudieron cargar las reservas. Verificá que el servidor esté corriendo y reintentá."
-                action={
-                  <Button variant="primary" size="md" icon={RefreshCw} onClick={load}>
-                    Reintentar conexión
-                  </Button>
-                }
-              />
             ) : reservations.length === 0 ? (
               <EmptyState
                 icon={Inbox}
-                title="Sin reservas activas"
-                text="Todavía no hay reservas en el sistema. Cuando un cliente reserve un lavado desde client-app, va a aparecer acá en tiempo real."
+                title="Sin órdenes activas"
+                text="Todavía no hay órdenes en el sistema. Cuando un cliente reserve un lavado desde client-app, va a aparecer acá en tiempo real."
               />
             ) : filtered.length === 0 ? (
               <EmptyState
                 icon={Search}
                 title="Sin resultados"
-                text={`No se encontraron reservas que coincidan${query ? ` con "${query}"` : ""}${filterStatus !== "all" ? ` en estado "${filterStatus}"` : ""}.`}
+                text={`No se encontraron órdenes que coincidan${query ? ` con "${query}"` : ""}${filterStatus !== "all" ? ` en estado "${filterStatus}"` : ""}.`}
                 action={
                   <Button variant="secondary" size="md" onClick={clearFilters}>
                     Limpiar filtros
@@ -303,11 +290,13 @@ export default function App() {
                 }
               />
             ) : (
-              <ReservationsTable
+              <OperationsBoard
                 reservations={filtered}
+                now={now}
                 onAdvance={handleAdvance}
                 onOpen={(r) => setSelectedId(r.id)}
                 busyId={busyId}
+                filterStatus={filterStatus}
               />
             )}
           </section>
