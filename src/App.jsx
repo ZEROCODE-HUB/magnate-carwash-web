@@ -32,6 +32,7 @@ export default function App() {
   const [view, setView] = useState("operaciones");
   const [toasts, setToasts] = useState([]);
   const liveHasData = useRef(false);
+  const apiHost = (import.meta.env.VITE_API_URL || "http://localhost:4000").replace(/^https?:\/\//, "");
 
   const load = useCallback(() => {
     setLoading(true);
@@ -136,6 +137,11 @@ export default function App() {
   function clearFilters() {
     setQuery("");
     setFilterStatus("all");
+  }
+
+  function showDemo() {
+    setReservations(DEMO_RESERVATIONS);
+    setDemoMode(true);
   }
 
   return (
@@ -291,7 +297,17 @@ export default function App() {
               <EmptyState
                 icon={Inbox}
                 title="Sin órdenes activas"
-                text="Todavía no hay órdenes en el sistema. Cuando un cliente reserve un lavado desde client-app, va a aparecer acá en tiempo real."
+                text={`No hay datos del backend (${apiHost}). Si el servidor está en línea, probá cargar la demo para descartar un problema de render.`}
+                action={
+                  <>
+                    <Button variant="secondary" size="md" onClick={load}>
+                      Reintentar
+                    </Button>
+                    <Button variant="primary" size="md" onClick={showDemo}>
+                      Cargar demo
+                    </Button>
+                  </>
+                }
               />
             ) : filtered.length === 0 ? (
               <EmptyState
@@ -320,6 +336,7 @@ export default function App() {
           <footer style={{ textAlign: "center", fontSize: 11.5, color: "var(--ink-4)", padding: "4px 0 10px" }}>
             Magnate · Panel de operaciones — actualización en tiempo real vía servidor local
           </footer>
+          <div className="debug-bar">Órdenes: {reservations.length} · {connected ? "EN VIVO" : "CONECTANDO"} · {apiHost}</div>
         </main>
       </div>
 
