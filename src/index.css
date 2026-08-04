@@ -912,13 +912,15 @@ h1, h2, h3, h4, p { margin: 0; }
   .conn-time { display: none; }
   .conn-badge { flex-shrink: 0; }
   .topbar .avatar { display: none; }
-   .bottom-nav { left: 0; padding: 5px 0 calc(5px + env(safe-area-inset-bottom, 0px)); }
+   .bottom-nav { left: 0; right: 0; padding: 5px 0 calc(5px + env(safe-area-inset-bottom, 0px)); }
    .bottom-nav-scroll {
      flex-direction: row;
      justify-content: flex-start;
      align-items: center;
      gap: 4px;
-     padding: 0 12px;
+     padding: 0;
+     overflow-x: auto;
+     overflow-y: visible;
    }
    .bn-item {
      flex: 0 0 auto;
@@ -1065,7 +1067,7 @@ h1, h2, h3, h4, p { margin: 0; }
 
 .oc-media {
   position: relative;
-  height: 120px;
+  height: 160px;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -1136,7 +1138,7 @@ h1, h2, h3, h4, p { margin: 0; }
   animation: pulse-flag 1.4s var(--ease) infinite;
 }
 
-.oc-body { padding: 16px 18px 8px; display: flex; flex-direction: column; gap: 8px; }
+.oc-body { padding: 12px 14px 8px; display: flex; flex-direction: column; gap: 6px; }
 .oc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .oc-id { font-size: 11px; font-weight: 600; color: var(--ink-4); }
 .oc-name {
@@ -1221,7 +1223,7 @@ h1, h2, h3, h4, p { margin: 0; }
   color: var(--ink-3);
 }
 
-.oc-actions { display: flex; gap: 10px; padding: 14px 18px 18px; }
+.oc-actions { display: flex; gap: 10px; padding: 12px 14px 12px; }
 .oc-btn {
   flex: 1;
   display: inline-flex;
@@ -1232,7 +1234,7 @@ h1, h2, h3, h4, p { margin: 0; }
   border-radius: 12px;
   font-size: 13px;
   font-weight: 700;
-  padding: 14px 16px;
+  padding: 12px 14px;
   white-space: nowrap;
   transition: background var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
 }
