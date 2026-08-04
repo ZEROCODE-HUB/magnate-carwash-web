@@ -1,0 +1,525 @@
+Design Bible
+Plataforma Digital
+Versión 1.0
+1. Objetivo
+
+Este documento establece el lenguaje visual y las reglas de experiencia de usuario (UX) que deberán aplicarse de manera consistente en todos los productos de la plataforma.
+
+Incluye:
+
+Aplicación móvil
+Panel Administrativo Web
+Futuras aplicaciones
+Nuevos módulos
+
+Este documento tiene prioridad sobre cualquier criterio individual de implementación.
+
+Cuando exista duda entre varias soluciones de interfaz, deberá elegirse la que más se acerque a esta guía.
+
+2. Filosofía del Producto
+
+La plataforma debe sentirse como un producto tecnológico moderno, no como un sistema administrativo tradicional.
+
+Debe transmitir:
+
+simplicidad
+velocidad
+confianza
+limpieza
+elegancia
+accesibilidad
+facilidad de uso
+
+La interfaz debe invitar a explorar, no a aprender.
+
+El usuario debe entender qué hacer sin necesidad de capacitación.
+
+3. Personalidad Visual
+
+El producto debe percibirse como:
+
+Premium
+Moderno
+Humano
+Visual
+Amigable
+Profesional
+Minimalista
+
+Evitar cualquier apariencia antigua o excesivamente corporativa.
+
+No utilizar interfaces densas.
+
+No utilizar diseños tipo ERP.
+
+4. Principios de Diseño
+
+Toda pantalla debe cumplir estos principios.
+
+Priorizar el contenido
+
+La información importante debe ser lo primero que vea el usuario.
+
+Reducir carga cognitiva
+
+Nunca mostrar demasiadas opciones simultáneamente.
+
+Agrupar.
+
+Jerarquizar.
+
+Simplificar.
+
+Mostrar antes que explicar
+
+Siempre que sea posible utilizar:
+
+fotografías
+ilustraciones
+iconografía
+mapas
+gráficos
+
+Antes que grandes bloques de texto.
+
+Facilitar la interacción
+
+Los elementos interactivos deben sentirse cómodos de presionar tanto en escritorio como en dispositivos móviles.
+
+5. Layout
+
+Toda pantalla debe respirar.
+
+Mucho espacio en blanco.
+
+Márgenes amplios.
+
+Separaciones consistentes.
+
+Grid ordenado.
+
+Nunca saturar una pantalla.
+
+6. Sistema de Tarjetas (Cards)
+
+Las tarjetas constituyen el componente principal de toda la plataforma.
+
+Toda nueva funcionalidad deberá intentar representarse mediante tarjetas antes de considerar listas o tablas.
+
+Reglas
+
+Las tarjetas deben ser:
+
+grandes
+visuales
+fáciles de tocar
+fáciles de leer
+
+Nunca utilizar tarjetas pequeñas únicamente para ahorrar espacio.
+
+Composición
+
+Cada tarjeta deberá contener únicamente la información necesaria para tomar una decisión.
+
+Estructura recomendada:
+
+Fotografía
+
+↓
+
+Título
+
+↓
+
+Información secundaria
+
+↓
+
+Estado
+
+↓
+
+Acción principal
+
+Imagen
+
+Las imágenes son protagonistas.
+
+No son decoración.
+
+Siempre ocuparán una porción importante de la tarjeta.
+
+Idealmente entre 35% y 60% del área visible.
+
+Apariencia
+
+Bordes redondeados.
+
+Padding amplio.
+
+Sombra suave.
+
+Elevación ligera al pasar el cursor.
+
+Animaciones rápidas.
+
+7. Regla General de Navegación
+
+Las acciones principales siempre deben estar visibles.
+
+El usuario nunca debe preguntarse:
+
+"¿Qué hago ahora?"
+
+La acción principal debe destacar visualmente.
+
+8. Fotografía
+
+Las fotografías deben transmitir calidad.
+
+Siempre:
+
+Alta resolución.
+
+Buena iluminación.
+
+Buen recorte.
+
+Esquinas redondeadas.
+
+Nunca utilizar miniaturas pequeñas cuando exista espacio disponible.
+
+9. Tipografía
+
+Utilizar una tipografía moderna.
+
+Preferencia:
+
+Inter
+
+Alternativas:
+
+SF Pro
+
+Manrope
+
+La jerarquía tipográfica debe ser extremadamente clara.
+
+Título
+
+↓
+
+Subtítulo
+
+↓
+
+Texto
+
+↓
+
+Información secundaria
+
+10. Espaciado
+
+Toda la plataforma debe sentirse aireada.
+
+Padding interno amplio.
+
+Separaciones consistentes.
+
+Nunca colocar componentes demasiado juntos.
+
+11. Bordes
+
+Todo el sistema utiliza esquinas redondeadas.
+
+Cards
+
+12–20 px
+
+Botones
+
+12–16 px
+
+Inputs
+
+12 px
+
+Modales
+
+20–24 px
+
+12. Sombras
+
+Sombras extremadamente suaves.
+
+Nunca exageradas.
+
+La profundidad debe ser elegante.
+
+13. Colores
+
+La interfaz debe utilizar pocos colores.
+
+Predomina:
+
+Blanco
+
+Gris muy claro
+
+Color primario de marca
+
+Los colores vivos únicamente llaman la atención sobre acciones importantes.
+
+14. Botones
+
+Los botones deben sentirse cómodos para interactuar.
+
+Nunca pequeños.
+
+Altura mínima:
+
+48 px
+
+Ideal:
+
+52–56 px
+
+Todos deben incluir:
+
+Hover
+
+Pressed
+
+Loading
+
+Disabled
+
+15. Inputs
+
+Mucho padding.
+
+Iconografía cuando aporte valor.
+
+Placeholder claro.
+
+Nunca parecer formularios antiguos.
+
+16. Iconografía
+
+Toda la iconografía debe pertenecer a una misma familia.
+
+Mismo grosor.
+
+Mismo estilo.
+
+Nunca mezclar librerías visualmente distintas.
+
+17. Navegación
+Aplicación móvil
+
+Bottom Navigation.
+
+Navegación con el pulgar.
+
+Acciones principales siempre visibles.
+
+Panel Administrativo
+
+Sidebar permanente.
+
+Header superior limpio.
+
+Contenido centrado.
+
+No ocultar funciones importantes detrás de múltiples clics.
+
+18. Dashboard
+
+Los dashboards deben ser visuales.
+
+No mostrar únicamente indicadores.
+
+Cada módulo importante deberá representarse mediante una tarjeta.
+
+Ejemplo:
+
+Propiedad
+
+↓
+
+Fotografía
+
+↓
+
+Estado
+
+↓
+
+Información
+
+↓
+
+Acciones
+
+19. Tablas
+
+Las tablas son un recurso secundario.
+
+Únicamente utilizarlas cuando el volumen de datos haga inviable el uso de tarjetas.
+
+Las tablas deben incluir:
+
+Mucho espacio entre filas.
+
+Badges.
+
+Avatares.
+
+Acciones agrupadas.
+
+Filtros claros.
+
+Nunca parecer hojas de Excel.
+
+20. Responsive
+
+No escalar.
+
+Reorganizar.
+
+Desktop
+
+2–4 columnas.
+
+Tablet
+
+2 columnas.
+
+Mobile
+
+1 columna.
+
+El contenido debe adaptarse naturalmente.
+
+21. Animaciones
+
+Toda interacción debe responder.
+
+Hover
+
+150–200 ms
+
+Cards
+
+Elevación ligera.
+
+Botones
+
+Escala muy sutil.
+
+Modales
+
+Fade + Scale.
+
+Evitar animaciones exageradas.
+
+22. Microinteracciones
+
+Toda acción importante debe generar retroalimentación.
+
+Ejemplos:
+
+Skeleton Loading.
+
+Check animado.
+
+Confetti en logros.
+
+Transiciones suaves.
+
+Estados vacíos ilustrados.
+
+23. Estados
+
+Todos los componentes deberán contemplar:
+
+Normal
+
+Hover
+
+Pressed
+
+Disabled
+
+Loading
+
+Error
+
+Vacío
+
+Sin conexión
+
+24. Accesibilidad
+
+Toda la plataforma debe priorizar:
+
+Contraste suficiente.
+
+Texto legible.
+
+Botones grandes.
+
+Objetivos táctiles cómodos.
+
+Navegación clara.
+
+25. Consistencia
+
+No crear un diseño nuevo para cada módulo.
+
+Todos los módulos deben sentirse parte del mismo producto.
+
+El usuario nunca debe percibir que cambió de aplicación.
+
+26. Regla de Oro
+
+Antes de implementar cualquier pantalla, responder las siguientes preguntas:
+
+¿Qué acción principal debe realizar el usuario?
+¿Esa acción es la más visible?
+¿La información importante aparece primero?
+¿Puede entender la pantalla en menos de cinco segundos?
+¿Existe suficiente espacio en blanco?
+¿La interfaz invita a interactuar?
+
+Si alguna respuesta es negativa, el diseño debe replantearse.
+
+27. Prioridad de Componentes
+
+Toda nueva funcionalidad deberá seguir el siguiente orden de prioridad:
+
+Cards visuales (opción preferida).
+Listas enriquecidas (cuando las tarjetas no sean prácticas).
+Tablas (solo cuando el volumen de información lo requiera).
+
+La plataforma debe evitar el uso de tablas como solución por defecto. Siempre que sea posible, la información deberá presentarse mediante tarjetas grandes, visuales y fáciles de interactuar, con imágenes relevantes, jerarquía clara y acciones visibles. Las tablas se reservarán para escenarios de administración masiva o análisis de grandes cantidades de datos.
+
+28. Referencias de Inspiración
+
+Las siguientes plataformas sirven únicamente como referencia de calidad, experiencia de usuario y nivel de detalle. No deben copiarse visualmente.
+
+Airbnb
+Uber Eats
+Spotify
+Apple
+Stripe
+Linear
+Notion
+Duolingo (microinteracciones)
+Google Material 3 (accesibilidad y consistencia)
+Visión Final
+
+La plataforma debe combinar la facilidad de uso de una aplicación de consumo con la potencia funcional de un sistema empresarial. Cada pantalla debe ser visual, clara, consistente y agradable de usar. Las tarjetas, las imágenes de gran tamaño, la jerarquía visual y las acciones evidentes constituyen la base de la experiencia. La complejidad del negocio debe resolverse mediante un excelente diseño, no trasladarse al usuario mediante interfaces densas o difíciles de entender.
+
+Este documento puede servir como la "constitución" del proyecto: cualquier IA o desarrollador debería consultarlo antes de diseñar o implementar una nueva pantalla. Si en el futuro agregas más referencias visuales, se pueden incorporar como anexos sin modificar estos principios fundamentales.

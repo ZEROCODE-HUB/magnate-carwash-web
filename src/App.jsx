@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { Search, X, LayoutGrid, RefreshCw, Inbox, AlertTriangle, Sparkles } from "lucide-react";
-import { STATUS_FLOW, STATUS_META, SERVICES } from "./data.js";
+import { Search, X, LayoutGrid, RefreshCw, Inbox, AlertTriangle, Sparkles, ShoppingBag } from "lucide-react";
+import { STATUS_FLOW, STATUS_META, SERVICES, ORDER_STATUS_FLOW, ORDER_STATUS_META, MENU_CATEGORY_META, DEMO_ORDERS } from "./data.js";
 import { T } from "./theme.js";
 import Sidebar from "./components/ui/Sidebar.jsx";
 import Topbar from "./components/ui/Topbar.jsx";
@@ -11,18 +11,22 @@ import TableSkeleton from "./components/ui/TableSkeleton.jsx";
 import ToastStack from "./components/ui/Toast.jsx";
 import Button from "./components/ui/Button.jsx";
 import OperationsBoard from "./components/ui/OperationsBoard.jsx";
+import PedidosBoard from "./components/ui/PedidosBoard.jsx";
 import BottomNav from "./components/ui/BottomNav.jsx";
 import { fetchReservations, advanceReservation, subscribeToReservations } from "./api/reservations.js";
+import { fetchOrders, advanceOrder, subscribeToOrders } from "./api/orders.js";
 import { DEMO_RESERVATIONS } from "./data.js";
 
 export default function App() {
   const [reservations, setReservations] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [connected, setConnected] = useState(false);
   const [lastSync, setLastSync] = useState("--:--:--");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [now, setNow] = useState(Date.now());
   const [demoMode, setDemoMode] = useState(false);
+  const [ordersDemoMode, setOrdersDemoMode] = useState(false);
 
   const [query, setQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -34,6 +38,7 @@ export default function App() {
   const [toasts, setToasts] = useState([]);
   const liveHasData = useRef(false);
   const apiHost = (import.meta.env.VITE_API_URL || "http://localhost:4000").replace(/^https?:\/\//, "");
+  const [orderFilterCat, setOrderFilterCat] = useState("all");
 
   const load = useCallback(() => {
     setLoading(true);
@@ -68,6 +73,35 @@ export default function App() {
     });
     return unsubscribe;
   }, [load]);
+
+  useEffect(() => {
+    let alive = true;
+    fetchOrders()
+      .then((data) => {
+        if (alive) {
+          if (data.length === 0) {
+            setOrders(DEMO_ORDERS);
+            setOrdersDemoMode(true);
+          } else {
+            setOrders(data);
+            setOrdersDemoMode(false);
+          }
+        }
+      })
+      .catch(() => {
+        if (alive) {
+          setOrders(DEMO_ORDERS);
+          setOrdersDemoMode(true);
+        }
+      });
+    const unsubscribe = subscribeToOrders((data) => {
+      if (alive && data.length > 0) setOrders(data);
+    });
+    return () => {
+      alive = false;
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const t = setInterval(() => setNow(Date.now()), 30000);
@@ -107,6 +141,22 @@ export default function App() {
     }
   }
 
+  async function handleOrderAdvance(o) {
+    if (busyId) return;
+    const idx = ORDER_STATUS_FLOW.indexOf(o.status);
+    const next = ORDER_STATUS_FLOW[idx + 1];
+    if (!next) return;
+    setBusyId(o.id);
+    try {
+      await advanceOrder(o.id, next);
+      pushToast({ variant: "success", title: `Pedido avanzado`, msg: `${o.name} pasó de "${o.status}" a "${next}".` });
+    } catch {
+      pushToast({ variant: "error", title: "No se pudo actualizar", msg: "Hubo un error al avanzar el estado. Intentá de nuevo." });
+    } finally {
+      setBusyId(null);
+    }
+  }
+
   const counts = useMemo(
     () =>
       STATUS_FLOW.reduce((acc, s) => {
@@ -116,6 +166,16 @@ export default function App() {
     [reservations]
   );
   const total = reservations.length;
+
+  const orderCounts = useMemo(
+    () =>
+      ORDER_STATUS_FLOW.reduce((acc, s) => {
+        acc[s] = orders.filter((o) => o.status === s).length;
+        return acc;
+      }, {}),
+    [orders]
+  );
+  const orderTotal = orders.length;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -189,10 +249,16 @@ export default function App() {
 
           <header className="page-header fade-up">
             <div>
-              <h1 className="page-title">{view === "operaciones" ? "Centro de operaciones" : "Métricas"}</h1>
+              <h1 className="page-title">
+                {view === "operaciones" && "Centro de operaciones"}
+                {view === "pedidos" && "Pedidos de comida"}
+                {view === "metricas" && "Métricas"}
+              </h1>
               <p className="page-subtitle">
                 {view === "operaciones"
                   ? "Tablero en vivo de lavado. Cada tarjeta es una orden activa: lo que acaba de llegar, lo que está en proceso y lo que falta entregar."
+                  : view === "pedidos"
+                  ? "Pedidos de comida en vivo. Filtralo por rubro (Restaurant, Cafetería, Kiosco) y avanzá el estado de cada uno."
                   : "Indicadores del día. El trabajo en vivo vive en la pestaña Operaciones."}
               </p>
             </div>
@@ -332,6 +398,59 @@ export default function App() {
               />
             )}
           </section>
+          )}
+
+          {view === "pedidos" && (
+            <section aria-label="Tablero de pedidos en vivo">
+              <div className="board-toolbar fade-up">
+                <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                  <div className="panel-head-title">Pedidos en vivo</div>
+                  <span className="board-toolbar-sub">
+                    {orders.length} pedido{orders.length === 1 ? "" : "s"} activos
+                    {orderFilterCat !== "all" ? ` · ${MENU_CATEGORY_META[orderFilterCat]?.name || orderFilterCat}` : ""}
+                  </span>
+                </div>
+
+                <div className="field">
+                  <select
+                    className="input"
+                    value={orderFilterCat}
+                    onChange={(e) => setOrderFilterCat(e.target.value)}
+                    aria-label="Filtrar por rubro"
+                    style={{ paddingRight: 30 }}
+                  >
+                    <option value="all">Todos los rubros</option>
+                    {Object.entries(MENU_CATEGORY_META).map(([key, m]) => (
+                      <option key={key} value={key}>{m.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {ordersDemoMode && (
+                <div className="board-demo-hint fade-up">
+                  <Sparkles size={15} strokeWidth={2.2} />
+                  <span>Mostrando <strong>datos de demostración</strong> de pedidos. Conectá el servidor para ver los pedidos en vivo.</span>
+                </div>
+              )}
+
+              {orders.length === 0 ? (
+                <EmptyState
+                  icon={ShoppingBag}
+                  title="Sin pedidos activos"
+                  text={`No hay pedidos de comida conectados (${apiHost}).`}
+                />
+              ) : (
+                <PedidosBoard
+                  orders={orders}
+                  now={now}
+                  onAdvance={handleOrderAdvance}
+                  onOpen={(o) => setSelectedId(o.id)}
+                  busyId={busyId}
+                  categoryFilter={orderFilterCat}
+                />
+              )}
+            </section>
           )}
 
           <footer style={{ textAlign: "center", fontSize: 11.5, color: "var(--ink-4)", padding: "4px 0 10px" }}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { CalendarClock, LayoutGrid, BarChart3 } from "lucide-react";
+import { CalendarClock, LayoutGrid, BarChart3, ShoppingBag } from "lucide-react";
 import EagleMark from "../shared/EagleMark.jsx";
 import { STATUS_FLOW, STATUS_META } from "../../data.js";
 
@@ -29,6 +29,16 @@ export default function Sidebar({ counts, total, filterStatus, onFilter, view, o
             <LayoutGrid size={15} strokeWidth={2.1} />
             Operaciones
             <span className="sidebar-item-count">{total}</span>
+          </button>
+          <button
+            type="button"
+            className={`sidebar-item ${view === "pedidos" ? "active" : ""}`}
+            onClick={() => { onView("pedidos"); onClose(); }}
+            aria-pressed={view === "pedidos"}
+          >
+            <ShoppingBag size={15} strokeWidth={2.1} />
+            Pedidos
+            <span className="sidebar-item-count">{0}</span>
           </button>
           <button
             type="button"
