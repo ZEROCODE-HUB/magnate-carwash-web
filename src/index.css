@@ -913,9 +913,16 @@ h1, h2, h3, h4, p { margin: 0; }
   .conn-badge { flex-shrink: 0; }
   .topbar .avatar { display: none; }
   .bottom-nav { left: 0; padding: 5px 2px calc(5px + env(safe-area-inset-bottom, 0px)); }
-  .bottom-nav-scroll { justify-content: space-evenly; gap: 0; }
+  .bottom-nav-scroll {
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 0 4px;
+  }
   .bn-item {
     flex: 1 1 0;
+    min-width: 52px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -923,13 +930,14 @@ h1, h2, h3, h4, p { margin: 0; }
     border: none;
     border-radius: 0;
     background: transparent;
-    padding: 7px 2px;
+    padding: 6px 2px;
     color: var(--ink-3);
+    font-size: 10px;
   }
   .bn-item.active { background: transparent; color: var(--brand); box-shadow: none; }
   .bn-item.active .bn-ico { box-shadow: 0 0 0 2px var(--brand-soft); }
   .bn-ico { width: 26px; height: 26px; border-radius: 8px; }
-  .bn-label { font-size: 10px; font-weight: 600; }
+  .bn-label { font-size: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .bn-count {
     position: absolute;
     top: 3px;
