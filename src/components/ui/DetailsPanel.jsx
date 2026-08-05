@@ -1,6 +1,6 @@
 import React from "react";
-import { Check, ArrowRight, X, Timer, CalendarClock, Hash, Car } from "lucide-react";
-import { STATUS_FLOW, STATUS_META, SERVICES, TIER_META } from "../../data.js";
+import { Check, ArrowRight, X, Timer, CalendarClock, Hash, Car, PackagePlus } from "lucide-react";
+import { STATUS_FLOW, STATUS_META, SERVICES, TIER_META, resolveAddOns } from "../../data.js";
 import IconButton from "./IconButton.jsx";
 import StatusChip from "./StatusChip.jsx";
 import TierBadge from "./TierBadge.jsx";
@@ -13,6 +13,7 @@ export default function DetailsPanel({ reservation, onClose, onAdvance, busy }) 
   const tierMeta = TIER_META[reservation.tier];
   const currentIdx = STATUS_FLOW.indexOf(reservation.status);
   const next = STATUS_FLOW[currentIdx + 1];
+  const addons = resolveAddOns(reservation.addOns);
   const createdAt = reservation.createdAt
     ? new Date(reservation.createdAt).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
     : "—";
@@ -74,6 +75,22 @@ export default function DetailsPanel({ reservation, onClose, onAdvance, busy }) 
               <span className="detail-value mono" style={{ fontSize: 12.5 }}>{String(reservation.id).slice(0, 8)}</span>
             </div>
           </div>
+
+          {addons.length > 0 && (
+            <div className="detail-section" style={{ marginTop: 12 }}>
+              <div className="detail-label">Adicionales / Extras</div>
+              {addons.map((a) => (
+                <div key={a.id} className="detail-row">
+                  <span className="muted" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 12.5 }}>
+                    <PackagePlus size={14} /> {a.name}
+                  </span>
+                  <span className="detail-value mono" style={{ fontSize: 12.5 }}>
+                    {a.price > 0 ? `$${a.price.toLocaleString("es-AR")}` : "—"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div className="detail-section" style={{ marginTop: 12 }}>
             <div className="detail-label">Progreso del flujo</div>

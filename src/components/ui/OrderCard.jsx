@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ArrowRight, CheckCircle2, Eye, Clock, AlertTriangle, Camera, PackagePlus, Wallet, StickyNote, CalendarClock } from "lucide-react";
-import { ACTION_LABEL, URGENT_AFTER, SERVICE_META, TIER_META, PAYMENT_META, STATUS_META } from "../../data.js";
+import { ACTION_LABEL, URGENT_AFTER, SERVICE_META, TIER_META, PAYMENT_META, STATUS_META, resolveAddOns } from "../../data.js";
 
 function fmtWait(ms) {
   if (ms < 0) ms = 0;
@@ -107,14 +107,17 @@ export default function OrderCard({ r, now, onAdvance, onOpen, busy }) {
           <TierBadge tier={r.tier} />
         </div>
 
-        {r.addOns?.length > 0 && (
-          <div className="oc-addons">
-            <PackagePlus size={12} strokeWidth={2.2} className="oc-addons-ico" />
-            {r.addOns.map((a) => (
-              <span key={a} className="oc-addon">{a}</span>
-            ))}
-          </div>
-        )}
+        {r.addOns?.length > 0 && (() => {
+          const addons = resolveAddOns(r.addOns);
+          return addons.length > 0 ? (
+            <div className="oc-addons">
+              <PackagePlus size={12} strokeWidth={2.2} className="oc-addons-ico" />
+              {addons.map((a) => (
+                <span key={a.id} className="oc-addon">{a.name}</span>
+              ))}
+            </div>
+          ) : null;
+        })()}
 
         {r.notes && (
           <div className="oc-note">

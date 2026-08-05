@@ -1,4 +1,4 @@
-import { Droplets, Wind, Sparkles, CircleDot, TimerReset, CheckCircle2, Crown, Award, Medal, Car, Camera, PackagePlus, Wallet, AlertTriangle, ShoppingBag, Coffee, UtensilsCrossed, Clock } from "lucide-react";
+import { Droplets, Wind, Sparkles, CircleDot, TimerReset, CheckCircle2, Crown, Award, Medal, Car, Camera, PackagePlus, Wallet, AlertTriangle, ShoppingBag, Coffee, UtensilsCrossed, Clock, Sun, Zap, Shield, Flower2, Leaf } from "lucide-react";
 import { T } from "./theme.js";
 
 import carwashImg1 from "./imágenes/carwash/WhatsApp Image 2026-08-04 at 12.56.35 PM.jpeg";
@@ -83,6 +83,37 @@ export const SERVICE_META = {
   "premium": { name: "Lavado Premium", icon: Sparkles, tint: "#0E7C86", tintBg: "#DCF0F1", image: carwashImg2 },
   "encerado": { name: "Encerado Premium", icon: Crown, tint: "#B45309", tintBg: "#FBEECF", image: carwashImg2 },
 };
+
+// Catálogo aplanado de agregados (extras) disponibles en el cliente.
+// Clave = id del agregado (como lo envía el cliente y lo persiste el servidor).
+// Sirve al panel para resolver el id → nombre legible + precio + ícono.
+export const ADDONS_META = {
+  brillo: { name: "Llanta brillante", price: 2000, icon: Sun },
+  vidrios: { name: "Vidrios cristal", price: 1500, icon: Zap },
+  cera: { name: "Cera protectora", price: 4000, icon: Shield },
+  aroma: { name: "Aroma a elección", price: 1500, icon: Flower2 },
+  motor: { name: "Motor a vapor", price: 3000, icon: Leaf },
+  hidro: { name: "Tratamiento hidrofugante", price: 5000, icon: Droplets },
+  opticas: { name: "Pulido de ópticas", price: 3500, icon: Sun },
+};
+
+// Normaliza los agregados de una reserva a un array de { id, name, price, icon }.
+// Acepta addOns como array de strings (ids) o array de objetos { id, name, ... }.
+// Si un id no está en el catálogo, se muestra el id tal cual como fallback.
+export function resolveAddOns(addOns) {
+  if (!Array.isArray(addOns) || addOns.length === 0) return [];
+  return addOns.map((a) => {
+    const isStr = typeof a === "string";
+    const id = isStr ? a : a.id;
+    const meta = ADDONS_META[id];
+    return {
+      id,
+      name: isStr ? (meta?.name || id) : (a.name || meta?.name || id),
+      price: isStr ? (meta?.price || 0) : (a.price ?? meta?.price ?? 0),
+      icon: meta?.icon,
+    };
+  });
+}
 
 export const PAYMENT_META = {
   "pagado": { label: "Pagado", color: "#15803D", bg: "#E3F5E8", icon: Wallet },
