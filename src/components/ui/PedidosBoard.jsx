@@ -15,7 +15,7 @@ export default function PedidosBoard({ orders, now, onAdvance, onOpen, busyId, c
 
   // Agrupar órdenes por rubro dentro de cada columna
   return (
-    <div style={{ display: "flex", gap: 14, alignItems: "flex-start", overflowX: "auto", padding: "2px 2px 14px" }}>
+    <div className="ops-board">
       {columns.map(({ status, meta, Icon, items }) => {
         // Filtrar items del rubro seleccionado
         const catItems = items.filter((o) => cats.includes(o.categoria));

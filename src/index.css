@@ -356,8 +356,11 @@ h1, h2, h3, h4, p { margin: 0; }
 /* ---------- KPI ---------- */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(148px, 190px));
   gap: 12px;
+  justify-content: center;
+  max-width: 1180px;
+  margin: 0 auto;
 }
 .kpi {
   background: var(--surface);
@@ -366,6 +369,7 @@ h1, h2, h3, h4, p { margin: 0; }
   padding: 14px 15px;
   position: relative;
   overflow: hidden;
+  text-align: center;
   transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
 }
 .kpi:hover {
@@ -390,7 +394,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .kpi-total .kpi-label { color: rgba(255, 255, 255, 0.55); }
 .kpi-total .kpi-value { color: #FFFFFF; }
 .kpi-total .kpi-icon { color: var(--accent); background: rgba(232, 169, 59, 0.12); border-color: rgba(232, 169, 59, 0.25); }
-.kpi-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.kpi-top { display: flex; align-items: flex-start; justify-content: center; gap: 8px; }
 .kpi-icon {
   width: 30px; height: 30px;
   border-radius: 8px;
@@ -1076,7 +1080,7 @@ h1, h2, h3, h4, p { margin: 0; }
   animation: pulse-flag 1.4s var(--ease) infinite;
 }
 
-.oc-body { padding: 12px 14px 8px; display: flex; flex-direction: column; gap: 6px; }
+.oc-body { padding: 12px 14px 10px; display: flex; flex-direction: column; gap: 7px; }
 .oc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .oc-id { font-size: 11px; font-weight: 600; color: var(--ink-4); }
 .oc-name {
@@ -1087,7 +1091,7 @@ h1, h2, h3, h4, p { margin: 0; }
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
-.oc-vehicle { font-size: 12px; color: var(--ink-3); margin-top: -3px; }
+.oc-vehicle { font-size: 12px; color: var(--ink-3); margin-top: 0; }
 
 .oc-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
 .oc-chip {
@@ -1138,8 +1142,8 @@ h1, h2, h3, h4, p { margin: 0; }
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 9px 0 4px;
-  margin-top: 2px;
+  padding: 9px 0 2px;
+  margin-top: 4px;
   border-top: 1px dashed var(--line);
 }
 .oc-wait {
@@ -1378,6 +1382,19 @@ h1, h2, h3, h4, p { margin: 0; }
 
 @media (min-width: 1024px) {
   .topbar-title-block { display: none; }
+
+  /* Columnas del tablero más anchas y mejor distribuidas en desktop */
+  .ops-col {
+    flex: 1 1 0;
+    min-width: 300px;
+    max-width: 460px;
+  }
+
+  /* En pantallas muy anchas, centra las columnas para no dejar vacío a la derecha */
+  .ops-board {
+    justify-content: safe center;
+  }
+  .ops-board-single { justify-content: flex-start; }
 }
 
 /* Board compacto en pantallas chicas: columnas apiladas */
