@@ -68,7 +68,7 @@ export const STATUS_META = {
 export const SERVICES = [
   { id: "basico", name: "Lavado Básico" },
   { id: "premium", name: "Lavado Premium" },
-  { id: "encerado", name: "Encerado" },
+  { id: "encerado", name: "Encerado Premium" },
 ];
 
 export const TIER_META = {
@@ -81,7 +81,7 @@ export const TIER_META = {
 export const SERVICE_META = {
   "basico": { name: "Lavado Básico", icon: Droplets, tint: "#1D6FB8", tintBg: "#E1EEFB", image: carwashImg1 },
   "premium": { name: "Lavado Premium", icon: Sparkles, tint: "#0E7C86", tintBg: "#DCF0F1", image: carwashImg2 },
-  "encerado": { name: "Encerado", icon: Crown, tint: "#B45309", tintBg: "#FBEECF", image: carwashImg2 },
+  "encerado": { name: "Encerado Premium", icon: Crown, tint: "#B45309", tintBg: "#FBEECF", image: carwashImg2 },
 };
 
 export const PAYMENT_META = {
@@ -102,6 +102,7 @@ export const DEMO_RESERVATIONS = [
     status: "Reservado",
     createdAt: now - 1000 * 60 * 4,
     notes: "Cliente frecuente. Dejar secado sin marcas.",
+    time: "09:30",
     addOns: ["Encerado", "Limpieza tapiz"],
     payment: "pendiente",
     demo: true,
@@ -115,6 +116,7 @@ export const DEMO_RESERVATIONS = [
     status: "Recibido",
     createdAt: now - 1000 * 60 * 16,
     notes: "",
+    time: "10:00",
     addOns: [],
     payment: "pagado",
     demo: true,
@@ -128,6 +130,7 @@ export const DEMO_RESERVATIONS = [
     status: "Lavando",
     createdAt: now - 1000 * 60 * 31,
     notes: "Interior con pelo de mascota.",
+    time: "10:30",
     addOns: ["Aspirado profundo"],
     payment: "pagado",
     demo: true,
@@ -141,6 +144,7 @@ export const DEMO_RESERVATIONS = [
     status: "Aspirado",
     createdAt: now - 1000 * 60 * 26,
     notes: "",
+    time: "11:00",
     addOns: [],
     payment: "pendiente",
     demo: true,
@@ -154,6 +158,7 @@ export const DEMO_RESERVATIONS = [
     status: "Detailing",
     createdAt: now - 1000 * 60 * 40,
     notes: "Revisar rayón en puerta trasera.",
+    time: "11:30",
     addOns: ["Pulido"],
     payment: "pagado",
     demo: true,
@@ -167,6 +172,7 @@ export const DEMO_RESERVATIONS = [
     status: "Secado",
     createdAt: now - 1000 * 60 * 22,
     notes: "",
+    time: "12:00",
     addOns: [],
     payment: "pagado",
     demo: true,
@@ -180,6 +186,7 @@ export const DEMO_RESERVATIONS = [
     status: "Listo",
     createdAt: now - 1000 * 60 * 52,
     notes: "Listo para entregar en mostrador.",
+    time: "12:30",
     addOns: ["Encerado"],
     payment: "pagado",
     demo: true,
@@ -193,6 +200,7 @@ export const DEMO_RESERVATIONS = [
     status: "Reservado",
     createdAt: now - 1000 * 60 * 1,
     notes: "",
+    time: "14:00",
     addOns: ["Limpieza tapiz"],
     payment: "pendiente",
     demo: true,

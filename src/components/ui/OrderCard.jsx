@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowRight, CheckCircle2, Eye, Clock, AlertTriangle, Camera, PackagePlus, Wallet, StickyNote } from "lucide-react";
+import { ArrowRight, CheckCircle2, Eye, Clock, AlertTriangle, Camera, PackagePlus, Wallet, StickyNote, CalendarClock } from "lucide-react";
 import { ACTION_LABEL, URGENT_AFTER, SERVICE_META, TIER_META, PAYMENT_META, STATUS_META } from "../../data.js";
 
 function fmtWait(ms) {
@@ -93,6 +93,12 @@ export default function OrderCard({ r, now, onAdvance, onOpen, busy }) {
 
         <h3 className="oc-name">{r.name}</h3>
         <div className="oc-vehicle">{r.vehicle || "—"}</div>
+        {r.time && (
+          <div className="oc-schedule" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, color: "var(--ink-3)" }}>
+            <CalendarClock size={13} strokeWidth={2.2} />
+            <span>{r.time} hs</span>
+          </div>
+        )}
 
         <div className="oc-tags">
           <span className="oc-chip oc-svc" style={{ color: svc.tint, background: svc.tintBg }}>
