@@ -1384,4 +1384,6 @@ h1, h2, h3, h4, p { margin: 0; }
 @media (max-width: 1023px) {
   .ops-board { display: block; overflow-x: hidden; }
   .ops-col { min-width: 0; max-width: none; max-height: none; flex: none; overflow: visible; }
+  /* Previene zoom en iOS al enfocar input de búsqueda */
+  .search-w .input { font-size: 16px; }
 }
