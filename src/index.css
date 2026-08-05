@@ -893,68 +893,6 @@ h1, h2, h3, h4, p { margin: 0; }
 .fade-up { animation: fade-up var(--t) var(--ease-out) both; }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 1023px) {
-  .sidebar {
-    position: fixed;
-    top: 0; left: 0; bottom: 0;
-    transform: translateX(-100%);
-    transition: transform var(--t-slow) var(--ease-out);
-    box-shadow: none;
-  }
-  .sidebar.open { transform: translateX(0); }
-  .hamburger { display: inline-grid; }
-  .content { padding: 16px 16px 96px; }
-  .page-title { font-size: 22px; }
-  .search-w { width: 100%; }
-  .topbar-title-block { display: block; }
-  .topbar-crumb { display: none; }
-  .page-header { display: none; }
-  .conn-time { display: none; }
-  .conn-badge { flex-shrink: 0; }
-  .topbar .avatar { display: none; }
-   .bottom-nav { left: 0; right: 0; padding: 5px 0 calc(5px + env(safe-area-inset-bottom, 0px)); }
-   .bottom-nav-scroll {
-     flex-direction: row;
-     justify-content: flex-start;
-     align-items: center;
-     gap: 4px;
-     padding: 0;
-     overflow-x: auto;
-     overflow-y: visible;
-   }
-   .bn-item {
-     flex: 0 0 auto;
-     width: 56px;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     gap: 3px;
-     border: none;
-     border-radius: 0;
-     background: transparent;
-    padding: 6px 2px;
-    color: var(--ink-3);
-    font-size: 10px;
-  }
-  .bn-item.active { background: transparent; color: var(--brand); box-shadow: none; }
-  .bn-item.active .bn-ico { box-shadow: 0 0 0 2px var(--brand-soft); }
-  .bn-ico { width: 26px; height: 26px; border-radius: 8px; }
-  .bn-label { font-size: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-  .bn-count {
-    position: absolute;
-    top: 3px;
-    right: 50%;
-    transform: translateX(13px);
-    padding: 0 5px;
-    font-size: 9px;
-    min-width: 0;
-  }
-}
-
-@media (min-width: 1024px) {
-  .topbar-title-block { display: none; }
-}
-
 /* ============================================================
    LIVE OPERATIONS BOARD — command center de pedidos
    ============================================================ */
@@ -1275,12 +1213,6 @@ h1, h2, h3, h4, p { margin: 0; }
   50% { box-shadow: 0 4px 12px -2px rgba(220,38,38,0.5), 0 0 0 6px rgba(220,38,38,0); }
 }
 
-/* Board compacto en pantallas chicas: columnas apiladas */
-@media (max-width: 1023px) {
-  .ops-board { display: block; overflow-x: hidden; }
-  .ops-col { min-width: 0; max-width: none; max-height: none; flex: none; overflow: visible; }
-}
-
 /* ---------- Toolbar del tablero ---------- */
 .board-toolbar {
   display: flex;
@@ -1380,3 +1312,76 @@ h1, h2, h3, h4, p { margin: 0; }
   color: var(--ink-3);
 }
 .bn-item.active .bn-count { background: rgba(255, 255, 255, 0.22); color: #FFF; }
+
+/* ============================================================
+   RESPONSIVE — colocado al FINAL para que las reglas mobile
+   tengan prioridad en cascada sobre las definiciones base.
+   ============================================================ */
+@media (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform var(--t-slow) var(--ease-out);
+    box-shadow: none;
+  }
+  .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+  .hamburger { display: inline-grid; }
+  .content { padding: 16px 16px 96px; }
+  .page-title { font-size: 22px; }
+  .search-w { width: 100%; }
+  .topbar-title-block { display: block; }
+  .topbar-crumb { display: none; }
+  .page-header { display: none; }
+  .conn-time { display: none; }
+  .conn-badge { flex-shrink: 0; }
+  .topbar .avatar { display: none; }
+  .bottom-nav { left: 0; right: 0; padding: 5px 0 calc(5px + env(safe-area-inset-bottom, 0px)); }
+  .bottom-nav-scroll {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    padding: 0 10px;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+  .bn-item {
+    flex: 0 0 auto;
+    min-width: 56px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    padding: 6px 8px;
+    color: var(--ink-3);
+    font-size: 10px;
+  }
+  .bn-item.active { background: transparent; color: var(--brand); box-shadow: none; }
+  .bn-item.active .bn-ico { box-shadow: 0 0 0 2px var(--brand-soft); }
+  .bn-ico { width: 26px; height: 26px; border-radius: 8px; }
+  .bn-label { font-size: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .bn-count {
+    position: absolute;
+    top: 3px;
+    right: 50%;
+    transform: translateX(13px);
+    padding: 0 5px;
+    font-size: 9px;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .topbar-title-block { display: none; }
+}
+
+/* Board compacto en pantallas chicas: columnas apiladas */
+@media (max-width: 1023px) {
+  .ops-board { display: block; overflow-x: hidden; }
+  .ops-col { min-width: 0; max-width: none; max-height: none; flex: none; overflow: visible; }
+}
